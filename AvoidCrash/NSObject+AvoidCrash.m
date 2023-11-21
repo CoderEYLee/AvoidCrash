@@ -103,24 +103,27 @@ static NSMutableArray *noneSelClassStringPrefixs;
     
     NSMethodSignature *ms = [self avoidCrashMethodSignatureForSelector:aSelector];
     
-    BOOL flag = NO;
-    if (ms == nil) {
-        for (NSString *classStr in noneSelClassStrings) {
-            if ([self isKindOfClass:NSClassFromString(classStr)]) {
-                ms = [AvoidCrashStubProxy instanceMethodSignatureForSelector:@selector(proxyMethod)];
-                flag = YES;
-                break;
-            }
+    //原始方法签名存在
+    if (ms) {
+        return ms;
+    }
+    
+    //处理 noneSelClassStrings
+    for (NSString *classStr in noneSelClassStrings) {
+        if ([self isKindOfClass:NSClassFromString(classStr)]) {
+            return [AvoidCrashStubProxy instanceMethodSignatureForSelector:@selector(proxyMethod)];
         }
     }
-    if (flag == NO) {
-        NSString *selfClass = NSStringFromClass([self class]);
-        for (NSString *classStrPrefix in noneSelClassStringPrefixs) {
-            if ([selfClass hasPrefix:classStrPrefix]) {
-                ms = [AvoidCrashStubProxy instanceMethodSignatureForSelector:@selector(proxyMethod)];
-            }
+    
+    //处理 noneSelClassStringPrefixs
+    NSString *selfClass = NSStringFromClass([self class]);
+    for (NSString *classStrPrefix in noneSelClassStringPrefixs) {
+        if ([selfClass hasPrefix:classStrPrefix]) {
+            ms = [AvoidCrashStubProxy instanceMethodSignatureForSelector:@selector(proxyMethod)];
         }
     }
+    
+    //ms = nil, 在下面avoidCrashForwardInvocation中处理过了
     return ms;
 }
 
