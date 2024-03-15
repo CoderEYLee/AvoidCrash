@@ -30,6 +30,10 @@
         
         //addAttributes:range:
         [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(addAttributes:range:) method2Sel:@selector(avoidCrashAddAttributes:range:)];
+        
+        //removeAttribute:range:
+        [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(removeAttribute:range:) method2Sel:@selector(avoidCrashRemoveAttributes:range:)];
+
     });
 }
 
@@ -102,6 +106,23 @@
         [self avoidCrashAddAttributes:attrs range:range];
     }
     @catch (NSException *exception){
+        [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
+    }
+    @finally {
+
+    }
+}
+
+
+//=================================================================
+//                     removeAttribute:range:
+//=================================================================
+#pragma mark - removeAttribute:range:
+- (void)avoidCrashRemoveAttributes:(NSAttributedStringKey)name range:(NSRange)range{
+    @try {
+        [self avoidCrashRemoveAttributes:name range:range];
+    }
+    @catch (NSException *exception) {
         [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
     }
     @finally {
