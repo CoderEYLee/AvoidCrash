@@ -38,6 +38,9 @@
         
         //stringByReplacingCharactersInRange:withString:
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(stringByReplacingCharactersInRange:withString:) method2Sel:@selector(avoidCrashStringByReplacingCharactersInRange:withString:)];
+        
+        //stringByAppendingString:
+        [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(stringByAppendingString:) method2Sel:@selector(avoidCrashStringByAppendingString:)];
     });
     
 }
@@ -200,5 +203,24 @@
     }
 }
 
+//=================================================================
+//       stringByAppendingString:
+//=================================================================
+#pragma mark - stringByAppendingString:
+
+- (NSString *)avoidCrashStringByAppendingString:(NSString *)aString{
+    NSString *newStr = nil;
+    @try {
+        newStr = [self avoidCrashStringByAppendingString:aString];
+    }
+    @catch (NSException *exception) {
+        NSString *defaultToDo = AvoidCrashDefaultReturnNil;
+        [AvoidCrash noteErrorWithException:exception defaultToDo:defaultToDo];
+        newStr = nil;
+    }
+    @finally {
+        return newStr;
+    }
+}
 
 @end

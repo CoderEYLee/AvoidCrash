@@ -231,6 +231,12 @@
     NSLog(@"%@",str);
 }
 
+- (void)NSString_Test_stringByAppendingString {
+    NSString *str = @"chenfanfang";
+    NSString *nilStr = nil;
+    str = [str stringByAppendingString:nilStr];
+    NSLog(@"%@",str);
+}
 
 //=================================================================
 //                       NSMutableString_Test
@@ -388,6 +394,7 @@
     [self NSString_Test_StringByReplacingOccurrencesOfString];
     [self NSString_Test_StringByReplacingOccurrencesOfStringRange];
     [self NSString_Test_stringByReplacingCharactersInRangeWithString];
+    [self NSString_Test_stringByAppendingString];
     
     
     [self NSMutableString_Test_ReplaceCharactersInRange];
