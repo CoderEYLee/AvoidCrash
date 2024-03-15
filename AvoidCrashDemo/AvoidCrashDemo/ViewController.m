@@ -328,6 +328,20 @@
     [attrStrM addAttribute:nilAtrrbutedName value:nilFont range:outOfRange];
 }
 
+- (void)NSMutableAttributedString_Test_AddAttributesRange{
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName : [UIColor redColor]
+                                 };
+    NSDictionary *nilAttributes = nil;
+    NSMutableAttributedString *attrStrM = [[NSMutableAttributedString alloc] initWithString:@"TEST" attributes:attributes];
+
+    [attrStrM addAttributes:nilAttributes range:NSMakeRange(0, [attrStrM.string length])];
+    NSRange outOfRange = NSMakeRange(0, attrStrM.length + 100);
+
+    [attrStrM addAttributes:attributes range:outOfRange];
+
+    [attrStrM addAttributes:nilAttributes range:outOfRange];
+}
 
 //=================================================================
 //                            KVC
@@ -426,6 +440,7 @@
     [self NSMutableAttributedString_Test_InitWithString];
     [self NSMutableAttributedString_Test_InitWithStringAttributes];
     [self NSMutableAttributedString_Test_AddAttributeValueRange];
+    [self NSMutableAttributedString_Test_AddAttributesRange];
     
     
     [self KVC_Test_SetValueForKey];
