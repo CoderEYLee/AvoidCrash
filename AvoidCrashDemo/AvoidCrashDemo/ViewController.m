@@ -311,6 +311,22 @@
     NSLog(@"%@",attrStrM);
 }
 
+- (void)NSMutableAttributedString_Test_AddAttributeValueRange{
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName : [UIColor redColor]
+                                 };
+     NSMutableAttributedString *attrStrM = [[NSMutableAttributedString alloc] initWithString:@"TEST" attributes:attributes];
+    NSString *nilAtrrbutedName = nil;
+    [attrStrM addAttribute:nilAtrrbutedName value:[UIFont systemFontOfSize:12.0] range:NSMakeRange(0, [attrStrM.string length])];
+
+    UIFont *nilFont = nil;
+    [attrStrM addAttribute:NSFontAttributeName value:nilFont range:NSMakeRange(0, [attrStrM.string length])];
+
+    NSRange outOfRange = NSMakeRange(0, attrStrM.length + 100);
+    [attrStrM addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12.0] range:outOfRange];
+
+    [attrStrM addAttribute:nilAtrrbutedName value:nilFont range:outOfRange];
+}
 
 
 //=================================================================
@@ -409,6 +425,7 @@
     
     [self NSMutableAttributedString_Test_InitWithString];
     [self NSMutableAttributedString_Test_InitWithStringAttributes];
+    [self NSMutableAttributedString_Test_AddAttributeValueRange];
     
     
     [self KVC_Test_SetValueForKey];

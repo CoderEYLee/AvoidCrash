@@ -24,6 +24,9 @@
         
         //initWithString:attributes:
         [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(initWithString:attributes:) method2Sel:@selector(avoidCrashInitWithString:attributes:)];
+        
+        //addAttribute:value:range:
+        [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(addAttribute:value:range:) method2Sel:@selector(avoidCrashAddAttribute:value:range:)];
     });
 }
 
@@ -70,5 +73,20 @@
     }
 }
 
+//=================================================================
+//                     addAttribute:value:range:
+//=================================================================
+#pragma mark - addAttribute:value:range:
+- (void)avoidCrashAddAttribute:(NSAttributedStringKey)name value:(id)value range:(NSRange)range{
+    @try {
+        [self avoidCrashAddAttribute:name value:value range:range];
+    }
+    @catch (NSException *exception) {
+        [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
+    }
+    @finally {
+
+    }
+}
 
 @end
