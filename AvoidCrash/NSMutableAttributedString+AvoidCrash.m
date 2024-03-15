@@ -34,6 +34,8 @@
         //removeAttribute:range:
         [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(removeAttribute:range:) method2Sel:@selector(avoidCrashRemoveAttributes:range:)];
 
+        //replaceCharactersInRange:withAttributedString:
+        [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(replaceCharactersInRange:withAttributedString:) method2Sel:@selector(avoidCrashReplaceCharactersInRange:withAttributedString:)];
     });
 }
 
@@ -121,6 +123,22 @@
 - (void)avoidCrashRemoveAttributes:(NSAttributedStringKey)name range:(NSRange)range{
     @try {
         [self avoidCrashRemoveAttributes:name range:range];
+    }
+    @catch (NSException *exception) {
+        [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
+    }
+    @finally {
+
+    }
+}
+
+//=================================================================
+//                     replaceCharactersInRange:withAttributedString:
+//=================================================================
+#pragma mark - replaceCharactersInRange:withAttributedString:
+- (void)avoidCrashReplaceCharactersInRange:(NSRange)range withAttributedString:(NSAttributedString *)attrString{
+    @try {
+        [self avoidCrashReplaceCharactersInRange:range withAttributedString:attrString];
     }
     @catch (NSException *exception) {
         [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
