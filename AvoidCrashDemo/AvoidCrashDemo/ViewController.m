@@ -372,6 +372,21 @@
     [attrStrM replaceCharactersInRange:outOfRange withAttributedString:nilAttributedString];
 }
 
+- (void)NSMutableAttributedString_Test_InsertAttributedStringAtIndex {
+    NSDictionary *attributes = @{
+                                 NSForegroundColorAttributeName : [UIColor redColor]
+                                 };
+    NSMutableAttributedString *attrStrM = [[NSMutableAttributedString alloc] initWithString:@"TEST" attributes:attributes];
+    NSAttributedString *nilAttributedString = nil;
+    [attrStrM insertAttributedString:nilAttributedString atIndex:0];
+
+    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:@"ABC" attributes:attributes];
+    NSInteger outIndex = attrStrM.length + 100;
+    [attrStrM insertAttributedString:attributedString atIndex:outIndex];
+
+    [attrStrM insertAttributedString:nilAttributedString atIndex:outIndex];
+}
+
 //=================================================================
 //                            KVC
 //=================================================================
@@ -472,6 +487,7 @@
     [self NSMutableAttributedString_Test_AddAttributesRange];
     [self NSMutableAttributedString_Test_RemoveAttributesRange];
     [self NSMutableAttributedString_Test_ReplaceCharactersInRangeWithAttributedString];
+    [self NSMutableAttributedString_Test_InsertAttributedStringAtIndex];
     
     
     [self KVC_Test_SetValueForKey];

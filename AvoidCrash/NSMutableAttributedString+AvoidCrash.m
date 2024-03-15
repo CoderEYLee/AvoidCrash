@@ -36,6 +36,9 @@
 
         //replaceCharactersInRange:withAttributedString:
         [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(replaceCharactersInRange:withAttributedString:) method2Sel:@selector(avoidCrashReplaceCharactersInRange:withAttributedString:)];
+        
+        //insertAttributedString:atIndex:
+        [AvoidCrash exchangeInstanceMethod:NSConcreteMutableAttributedString method1Sel:@selector(insertAttributedString:atIndex:) method2Sel:@selector(avoidCrashInsertAttributedString:atIndex:)];
     });
 }
 
@@ -147,5 +150,22 @@
 
     }
 }
+
+//=================================================================
+//                     insertAttributedString:atIndex:
+//=================================================================
+#pragma mark - insertAttributedString:atIndex:
+- (void)avoidCrashInsertAttributedString:(NSAttributedString *)attrString atIndex:(NSUInteger)loc{
+    @try {
+        [self avoidCrashInsertAttributedString:attrString atIndex:loc];
+    }
+    @catch (NSException *exception) {
+        [AvoidCrash noteErrorWithException:exception defaultToDo:AvoidCrashDefaultIgnore];
+    }
+    @finally {
+
+    }
+}
+
 
 @end
