@@ -30,6 +30,8 @@
         //substringToIndex
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(substringToIndex:) method2Sel:@selector(avoidCrashSubstringToIndex:)];
         
+        [AvoidCrash exchangeInstanceMethod:__NSCFString method1Sel:@selector(substringToIndex:) method2Sel:@selector(__NSCFStringAvoidCrashSubstringToIndex:)];
+        
         //substringWithRange:
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(substringWithRange:) method2Sel:@selector(avoidCrashSubstringWithRange:)];
         
@@ -124,6 +126,24 @@
     
     @try {
         subString = [self avoidCrashSubstringToIndex:to];
+    }
+    @catch (NSException *exception) {
+        NSString *defaultToDo = AvoidCrashDefaultReturnNil;
+        [AvoidCrash noteErrorWithException:exception defaultToDo:defaultToDo];
+        subString = nil;
+    }
+    @finally {
+        return subString;
+    }
+}
+
+//__NSCFString substringToIndex:
+- (NSString *)__NSCFStringAvoidCrashSubstringToIndex:(NSUInteger)to {
+    
+    NSString *subString = nil;
+    
+    @try {
+        subString = [self __NSCFStringAvoidCrashSubstringToIndex:to];
     }
     @catch (NSException *exception) {
         NSString *defaultToDo = AvoidCrashDefaultReturnNil;
