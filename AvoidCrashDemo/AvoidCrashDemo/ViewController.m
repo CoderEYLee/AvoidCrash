@@ -270,6 +270,12 @@
     NSMutableString *strM = [NSMutableString stringWithFormat:@"chenfanfang"];
     [strM substringToIndex:1000];
 }
+
+- (void)NSMutableString_Test_substringWithRange {
+    NSMutableString *strM = [NSMutableString stringWithString:@"chenfanfang"];
+    [strM substringWithRange:NSMakeRange(500, 1000)];
+}
+
 //=================================================================
 //                      NSAttributedString_Test
 //=================================================================
@@ -485,6 +491,7 @@
     [self NSMutableString_TestDeleteCharactersInRange];
     [self NSMutableString_Test_substringFromIndex];
     [self NSMutableString_Test_substringToIndex];
+    [self NSMutableString_Test_substringWithRange];
     
     
     [self NSAttributedString_Test_InitWithString];

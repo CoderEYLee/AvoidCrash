@@ -35,6 +35,8 @@
         //substringWithRange:
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(substringWithRange:) method2Sel:@selector(avoidCrashSubstringWithRange:)];
         
+        [AvoidCrash exchangeInstanceMethod:__NSCFString method1Sel:@selector(substringWithRange:) method2Sel:@selector(__NSCFStringAvoidCrashSubstringWithRange:)];
+        
         //stringByReplacingOccurrencesOfString:
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(stringByReplacingOccurrencesOfString:withString:) method2Sel:@selector(avoidCrashStringByReplacingOccurrencesOfString:withString:)];
         
@@ -177,6 +179,25 @@
         return subString;
     }
 }
+
+//__NSCFString substringWithRange:
+- (NSString *)__NSCFStringAvoidCrashSubstringWithRange:(NSRange)range {
+    
+    NSString *subString = nil;
+    
+    @try {
+        subString = [self __NSCFStringAvoidCrashSubstringWithRange:range];
+    }
+    @catch (NSException *exception) {
+        NSString *defaultToDo = AvoidCrashDefaultReturnNil;
+        [AvoidCrash noteErrorWithException:exception defaultToDo:defaultToDo];
+        subString = nil;
+    }
+    @finally {
+        return subString;
+    }
+}
+
 
 //=================================================================
 //                stringByReplacingOccurrencesOfString:
