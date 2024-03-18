@@ -17,12 +17,15 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class stringClass = NSClassFromString(@"__NSCFConstantString");
+        Class __NSCFString = NSClassFromString(@"__NSCFString");
         
         //characterAtIndex
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(characterAtIndex:) method2Sel:@selector(avoidCrashCharacterAtIndex:)];
         
         //substringFromIndex
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(substringFromIndex:) method2Sel:@selector(avoidCrashSubstringFromIndex:)];
+        
+        [AvoidCrash exchangeInstanceMethod:__NSCFString method1Sel:@selector(substringFromIndex:) method2Sel:@selector(__NSCFStringAvoidCrashSubstringFromIndex:)];
         
         //substringToIndex
         [AvoidCrash exchangeInstanceMethod:stringClass method1Sel:@selector(substringToIndex:) method2Sel:@selector(avoidCrashSubstringToIndex:)];
@@ -89,6 +92,26 @@
         return subString;
     }
 }
+
+//__NSCFString substringFromIndex:
+- (NSString *)__NSCFStringAvoidCrashSubstringFromIndex:(NSUInteger)from {
+    
+    NSString *subString = nil;
+    
+    @try {
+        subString = [self __NSCFStringAvoidCrashSubstringFromIndex:from];
+    }
+    @catch (NSException *exception) {
+        
+        NSString *defaultToDo = AvoidCrashDefaultReturnNil;
+        [AvoidCrash noteErrorWithException:exception defaultToDo:defaultToDo];
+        subString = nil;
+    }
+    @finally {
+        return subString;
+    }
+}
+
 
 //=================================================================
 //                           substringToIndex
