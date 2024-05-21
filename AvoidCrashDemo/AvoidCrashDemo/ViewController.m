@@ -132,6 +132,17 @@
     NSLog(@"%@",dict);
 }
 
+- (void)NSDictionary_Test_InitWithObjects {
+    NSString *nilStr = nil;
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjects:@[
+        nilStr
+    ] forKeys:@[
+        @"key1"
+    ]];
+    NSLog(@"%@",dict);
+}
+
+
 //=================================================================
 //                       NSMutableDictionary_Test
 //=================================================================
@@ -471,6 +482,7 @@
     
     
     [self NSDictionary_Test_InstanceDictionary];
+    [self NSDictionary_Test_InitWithObjects];
     [self NSMutableDictionary_Test_SetObjectForKey_1];
     [self NSMutableDictionary_Test_SetObjectForKey_2];
     [self NSMutableDictionary_Test_RemoveObjectForKey];

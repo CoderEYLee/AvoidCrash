@@ -18,6 +18,8 @@
     dispatch_once(&onceToken, ^{
         
         [AvoidCrash exchangeClassMethod:self method1Sel:@selector(dictionaryWithObjects:forKeys:count:) method2Sel:@selector(avoidCrashDictionaryWithObjects:forKeys:count:)];
+        
+        [AvoidCrash exchangeInstanceMethod:self method1Sel:@selector(initWithObjects:forKeys:) method2Sel:@selector(avoidCrashInitWithObjects:forKeys:)];
     });
 }
 
@@ -47,6 +49,21 @@
             }
         }
         instance = [self avoidCrashDictionaryWithObjects:newObjects forKeys:newkeys count:index];
+    }
+    @finally {
+        return instance;
+    }
+}
+
+- (instancetype)avoidCrashInitWithObjects:(NSArray *)objects forKeys:(NSArray<id<NSCopying>> *)keys {
+    id instance = nil;
+    
+    @try {
+        instance = [self avoidCrashInitWithObjects:objects forKeys:keys];
+    }
+    @catch (NSException *exception) {
+        NSString *defaultToDo = @"AvoidCrash default is to remove nil";
+        [AvoidCrash noteErrorWithException:exception defaultToDo:defaultToDo];
     }
     @finally {
         return instance;
